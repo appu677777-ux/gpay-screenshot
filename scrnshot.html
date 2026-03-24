@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Success</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        @keyframes pingOnce {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+
+            70% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .animate-ping-once {
+            animation: pingOnce 0.6s ease-out;
+        }
+
+        .amount {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+
+        .text {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 400;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-900 text-white">
+
+    <div class="flex flex-col items-center justify-center h-screen text-center px-4">
+
+        <!-- ✅ Blue Tick -->
+        <div onclick="openModal()"
+            class="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center mb-10 shadow-lg animate-ping-once">
+            <i class="fa-solid fa-check text-white text-3xl"></i>
+
+        </div>
+        <!-- 🚨 Alert Modal -->
+        <div id="modal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center z-50">
+
+            <!-- 📦 Box -->
+            <div class="bg-[#1f2937] p-6 rounded-2xl w-[90%] max-w-md text-white shadow-xl">
+
+                <h2 class="text-xl font-semibold mb-4">Add Entry</h2>
+
+                <!-- paid to Name -->
+                <div class="mb-4">
+                    <label class="text-sm text-gray-400">paid to Name</label>
+                    <input id="paidname" type="text" placeholder="Enter name"
+                        class="w-full mt-1 p-3 rounded-lg bg-gray-800 outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <!-- banking Name -->
+                <div class="mb-4">
+                    <label class="text-sm text-gray-400">banking Name</label>
+                    <input id="bankingname" type="text" placeholder="Enter name"
+                        class="w-full mt-1 p-3 rounded-lg bg-gray-800 outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <!-- Rate -->
+                <div class="mb-4">
+                    <label class="text-sm text-gray-400">Amount</label>
+                    <input id="amount" type="number" placeholder="₹ Enter amount"
+                        class="w-full mt-1 p-3 rounded-lg bg-gray-800 outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <!-- Date -->
+                <div class="mb-5">
+                    <label class="text-sm text-gray-400">Date</label>
+                    <input id="date" type="date"
+                        class="w-full mt-1 p-3 rounded-lg bg-gray-800 outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <!-- Buttons -->
+                <div class="flex gap-3">
+                    <button onclick="closeModal()" class="w-1/2 bg-gray-600 p-3 rounded-lg">
+                        Cancel
+                    </button>
+
+                    <button onclick="submitData()" class="w-1/2 bg-blue-600 p-3 rounded-lg">
+                        Submit
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- 💰 Amount -->
+        <h1 id="displayAmount" class="amount text-4xl text-white mb-6">₹200.00</h1>
+
+        <!-- 📄 Details -->
+        <p class="text-white text-sm mb-1">Paid to</p>
+        <h2 id="displayName" class="text-2xl font-semibold text-white mb-3">Ajith
+            Peechamannil</h2>
+
+        <!-- Banking Info -->
+        <div class="flex items-center gap-2 text-white mb-3">
+
+            <!-- ✅ Verified Shield Icon -->
+            <div class="w-6 h-6 flex items-center justify-center">
+                <img src="https://www.compliancegate.com/wp-content/uploads/2021/12/compliance-check.png" alt>
+            </div>
+
+            <p id="displayBank" class="text-sm text-white">Banking name: AJITH P M</p>
+        </div>
+
+        <!-- Date -->
+        <p id="displayDate" class="text-white text-sm font-medium">23 March 2026, 9:57 am</p>
+
+    </div>
+
+</body>
+<!-- ⚙️ Script -->
+<script>
+    function openModal() {
+        document.getElementById('modal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+        document.getElementById('modal').classList.add('hidden');
+    }
+
+
+    function submitData() {
+        const paidName = document.getElementById('paidname').value;
+        const bankingName = document.getElementById('bankingname').value;
+        const amount = document.getElementById('amount').value;
+        const date = document.getElementById('date').value;
+
+        if (!paidName || !bankingName || !amount || !date) {
+            alert("Please fill all fields!");
+            return;
+        }
+
+        // ✅ Update UI
+        document.getElementById('displayName').innerText = paidName;
+        document.getElementById('displayBank').innerText = "Banking name: " + bankingName;
+        document.getElementById('displayAmount').innerText = "₹" + parseFloat(amount).toFixed(2);
+
+        // Format date nicely
+        const formattedDate = new Date(date).toLocaleString('en-IN', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric'
+        });
+
+        document.getElementById('displayDate').innerText = formattedDate;
+
+        closeModal();
+    }
+
+</script>
+
+</html>
